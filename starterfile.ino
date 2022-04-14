@@ -101,6 +101,11 @@ void loop() {
     int onTapeRight = analogRead(LR);
     int onTapeMiddle = analogRead(LM);
 
+    if (onTapeMidde < 200)
+    {
+      myservo.write(270);
+    }
+
     //Report variables back for your sanity
     Serial.print("Distance Reading: ");
     Serial.print(distance);
