@@ -105,8 +105,7 @@ void loop() {
       stop();
     }
     
-    if (onTapeMidde < 200)
-    {
+    if (onTapeMiddle < 200) {
       myservo.write(270);
     }
 
