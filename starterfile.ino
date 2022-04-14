@@ -101,6 +101,10 @@ void loop() {
     int onTapeRight = analogRead(LR);
     int onTapeMiddle = analogRead(LM);
 
+    if (distance < 25) {
+      stop();
+    }
+    
     if (onTapeMidde < 200)
     {
       myservo.write(270);
