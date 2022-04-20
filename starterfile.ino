@@ -5,8 +5,11 @@
 Servo myservo;      // create servo object to control servo
 
 //Define all of the pins used.  These are NOT up to us, but rather what Elegoo decided.  Don't change.
+const int numLine = 4;
+bool gatePassed = false;
+int stripeCount = 0;
 int Echo = 12;  
-int Trig = 13; 
+int Trig = 13;
 
 #define ENA 5
 #define ENB 6
@@ -83,15 +86,15 @@ void setup() {
 //Below is some skeleton code that calls functions.  Your primary task is to edit this code to accomplish your goals.
 void loop() {
    //Here is how you set the servo angle
-    myservo.write(90);  //setservo position to angle; 90 is nominally straight in front
-    delay(500); //Each time you change the servo, you should give it some time to reach the destination
+    //myservo.write(90);  //setservo position to angle; 90 is nominally straight in front
+    //Each time you change the servo, you should give it some time to reach the destination
 
     //Here is how you get the distance in cm
     float distance = Distance_test();  
 
     //Here is how you drive your car - this sample drives the car forward
-    int rspeed = 200;
-    int lspeed = 200;
+    int rspeed = 37.5;
+    int lspeed = 30;
     leftMotor(lspeed,1);  //Replace 1 with zero to reverse the direction for either motor
     rightMotor(rspeed,1);
 
@@ -101,12 +104,31 @@ void loop() {
     int onTapeRight = analogRead(LR);
     int onTapeMiddle = analogRead(LM);
 
-    if (distance < 25) {
+    if (gatePassed == false) myservo.write(90);
+
+    while (distance <= 13) {
       stop();
+      delay(15000);
+      distance = Distance_test();
+      if (distance > 15 && gatePassed == false) {
+        gatePassed = true;
+      }
+      if(gatePassed == true) {
+        myservo.write(180); 
+      }
     }
     
-    if (onTapeMiddle < 200) {
-      myservo.write(270);
+    if (gatePassed == true && (onTapeMiddle >= 100 || onTapeLeft >= 100 || onTapeRight >= 100)) {
+      stripeCount++;
+      if (stripeCount % 2 == 1) myservo.write(-90);
+      else myservo.write(180);
+      delay(500);
+    }
+
+    if (stripeCount == numLine){
+      delay(500);
+      stop();
+      delay(15000);
     }
 
     //Report variables back for your sanity
