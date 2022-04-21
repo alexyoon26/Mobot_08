@@ -4,9 +4,4 @@
 
 Team Members: Rohit Chand, Jordan Petzold, Alex Yoon 
 
-
-
-
-
-  
-main.ino runs the line and object detection on the mobot
+Directions: main.ino runs the line and object detection on the mobot
